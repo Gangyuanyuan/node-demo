@@ -36,8 +36,7 @@ var server = http.createServer(function(request, response){
       response.setHeader('Content-Type', 'application/javascript')
       response.statusCode = 200
       response.write(`
-        alert("success")
-        amount.innerText = amount.innerText - 1 // 局部刷新：在服务器的js里改内容，通过write传到浏览器
+        ${query.callback}.call(undefined, 'success')
       `)
       response.end()
   }else{

@@ -4,14 +4,24 @@
 <script>
 	button.addEventListener('click', function(e){
 		let script = document.createElement('script') // 生成script标签
-		script.src = '/pay' // 请求的路径（script只能发get请求）
+		let functionName = 'gang'+parseInt(Math.random()*100000,10) //随机生成函数名 gang61329
+		window[functionName] = function(result){
+			if(result === 'success'){
+				amount.innerText = amount.innerText - 1 // 局部刷新
+			}else{
+
+			}
+		}
+		script.src = 'http://jack.com:8002/pay?callback=' + functionName // 请求的路径
 		document.body.appendChild(script) // script标签只有放在body里才会发请求
 		script.onload = function(e){
 			e.currentTarget.remove() // 删掉页面的script标签（内存里还存在）
+			delete window[functionName] // 删掉函数
 		}
 		script.onerror = function(e){
 			alert('fail')
 			e.currentTarget.remove()
+			delete window[functionName]
 		}
 	})
 </script>
