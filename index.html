@@ -1,0 +1,17 @@
+<title>首页</title>
+<h5>您的账户余额是 <span id="amount">&&&amount&&&</span></h5> <!-- 定义符号占位 -->
+<button id="button">付款1元</button>
+<script>
+	button.addEventListener('click', function(e){
+		let script = document.createElement('script') // 生成script标签
+		script.src = '/pay' // 请求的路径（script只能发get请求）
+		document.body.appendChild(script) // script标签只有放在body里才会发请求
+		script.onload = function(e){
+			e.currentTarget.remove() // 删掉页面的script标签（内存里还存在）
+		}
+		script.onerror = function(e){
+			alert('fail')
+			e.currentTarget.remove()
+		}
+	})
+</script>
