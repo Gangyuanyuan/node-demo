@@ -8,20 +8,32 @@
 		window[functionName] = function(result){
 			if(result === 'success'){
 				amount.innerText = amount.innerText - 1 // 局部刷新
-			}else{
-
-			}
+			}else{}
 		}
 		script.src = 'http://jack.com:8002/pay?callback=' + functionName // 请求的路径
 		document.body.appendChild(script) // script标签只有放在body里才会发请求
-		script.onload = function(e){
+		script.onload = function(e){ // 状态码在200~299表示成功
 			e.currentTarget.remove() // 删掉页面的script标签（内存里还存在）
-			delete window[functionName] // 删掉函数
+			delete window[functionName] // 请求完了就删掉函数
 		}
-		script.onerror = function(e){
+		script.onerror = function(e){ // 状态码大于等于400则表示失败
 			alert('fail')
 			e.currentTarget.remove()
 			delete window[functionName]
 		}
 	})
 </script>
+
+
+<!-- jQuery代码：
+button.addEventListener('click', function(e){
+	$.ajax({
+		url: "http://jack.com:8002/pay",
+		dataType: "jsonp",
+		success: function( response ) {
+     		if(response === 'success'){
+         		amount.innerText = amount.innerText - 1
+     		}
+ 		}
+ 	})
+}) -->
